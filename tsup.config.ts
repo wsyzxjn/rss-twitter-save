@@ -17,9 +17,4 @@ export default defineConfig([
     ...DEFAULT_CONFIG,
     format: "esm",
   },
-  {
-    ...DEFAULT_CONFIG,
-    format: "cjs",
-    dts: false,
-  },
 ]);

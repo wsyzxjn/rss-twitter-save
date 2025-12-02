@@ -1,14 +1,22 @@
 # RSS Twitter Save
 
+[![npm version](https://img.shields.io/npm/v/rss-twitter-save)](https://www.npmjs.com/package/rss-twitter-save)
+
 使用 RSSHub + WebDAV 自动抓取 Twitter 列表的媒体内容并备份到远端存储的脚本工程。
 
 ## 功能概览
 
 1. **获取 RSS**：通过 `rss-parser` 拉取指定 Twitter 列表的 RSS 源，并过滤转推内容。
 2. **解析媒体**：利用 `rss-parser` 的 `content` 字段提取 `<img>` 标签，解码其中的图片 URL。
-3. **下载图片**：为每位作者建立临时目录，按发布时间命名文件（自动推断文件格式）。
-4. **上传至 WebDAV**：通过 `webdav` 客户端递归上传目录，最终按 `twitter/<creator>` 目录结构存档。
+3. **下载图片**：为每张图片按发布时间生成安全文件名，自动推断文件格式。
+4. **上传至 WebDAV**：将下载流直接接入 WebDAV `uploadStream`，实时写入 `twitter/<creator>` 目录结构。
 5. **任务调度**：程序启动后立即执行一次同步，并使用 `setInterval` 每 6 小时增量抓取；同步完成会更新 `data.json` 中的 `lastSavedAt`，用于下次计算时间窗口。
+
+## 一键启动
+
+```bash
+npx rss-twitter-save
+```
 
 ## 目录结构
 
@@ -29,7 +37,7 @@
 
 ## 环境要求
 
-- Node.js ≥ 24（项目使用 `node --import tsx` 运行 TS 源码）
+- Node.js ≥ 20（项目使用 `node --import tsx` 运行 TS 源码）
 - pnpm ≥ 8（建议使用 10.x，与项目锁定版本一致）
 
 ### 必须的环境变量
@@ -57,5 +65,5 @@
 
 1. **初始化**：`main()` 先调用 `checkAndSave()` 立即同步一次，再以 6 小时为周期执行。
 2. **增量抓取**：`getImageUrlsMap()` 会根据 `data.json` 的 `lastSavedAt` 计算 `filter_time` 参数，只拉取最近未备份的内容。
-3. **下载 + 命名**：对每位作者建立临时目录（`temp/<creator>`），文件命名为 `safePublishedAt + 扩展名`，其中扩展名优先取自响应头的 `Content-Type`，否则回退到 URL。
-4. **上传 + 清理**：调用 `webdav.copyDirectory(tempDir, /twitter/<creator>)` 上传，成功后删除临时目录并更新 `data.json`。
+3. **下载 + 命名**：为每张图片按 `safePublishedAt + 扩展名` 生成文件名（扩展名优先取自响应头 `Content-Type`），无需创建本地临时目录。
+4. **流式上传**：直接将 `fetch` 响应体转成 Node 流并调用 `webdav.uploadStream` 写入 `/twitter/<creator>`，完成后更新 `data.json`。

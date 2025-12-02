@@ -33,6 +33,9 @@
     "prepublishOnly": "pnpm run prettier && pnpm run build:production",
     "test": "node --import tsx --env-file .env tests/index.ts"
   },
+  "bin": {
+    "rss-twitter-save": "dist/index.js"
+  },
   "devDependencies": {
     "@types/he": "^1.2.3",
     "@types/mime-types": "^3.0.1",
