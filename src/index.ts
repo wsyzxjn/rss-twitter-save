@@ -32,6 +32,8 @@ async function getImageUrlsMap(): Promise<ImageUrlsMap> {
     process.exit(1);
   });
 
+  if (!feed) return {};
+
   const itemsWihoutRT = feed.items.filter(
     ({ content }) =>
       !content?.startsWith("RT") &&

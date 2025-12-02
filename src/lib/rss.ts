@@ -3,7 +3,9 @@ import Parser from "rss-parser";
 const parser = new Parser();
 
 export async function getFeed(url: string) {
-  return await parser.parseURL(url);
+  const response = await fetch(url);
+  if (response.status === 304) return null;
+  return await parser.parseString(await response.text());
 }
 
 export function getListRssUrl(listId: string) {
