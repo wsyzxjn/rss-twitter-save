@@ -7,6 +7,9 @@ const DEFAULT_CONFIG: Options = {
   clean: true,
   outDir: "dist",
   skipNodeModulesBundle: true,
+  banner: {
+    js: "#!/usr/bin/env node",
+  },
 };
 
 export default defineConfig([

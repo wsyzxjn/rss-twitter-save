@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { getListRssUrl, getFeed } from "@/lib/rss.js";
 import { getImageUrlsFromContent } from "@/utils/get-image.js";
 import { getEnv } from "@/utils/env.js";
