@@ -1,0 +1,56 @@
+{
+  "name": "rss-twitter-save",
+  "description": "Save media from Twitter RSS",
+  "author": "amatsuka <amatsukamao@qq.com>",
+  "version": "0.1.0",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "pnpm@10.16.1",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "node --import tsx --env-file .env src/index.ts",
+    "lint": "eslint --ext .ts,.js src",
+    "prettier": "prettier --write 'src/**/*.ts'",
+    "build": "tsup",
+    "build:production": "cross-env NODE_ENV=production tsup",
+    "prepublishOnly": "pnpm run prettier && pnpm run build:production",
+    "test": "node --import tsx --env-file .env tests/index.ts"
+  },
+  "devDependencies": {
+    "@types/he": "^1.2.3",
+    "@types/mime-types": "^3.0.1",
+    "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.48.1",
+    "@typescript-eslint/parser": "^8.48.1",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.7.3",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "he": "^1.2.0",
+    "mime-types": "^3.0.2",
+    "rss-parser": "^3.13.0",
+    "webdav": "^5.8.0"
+  }
+}
