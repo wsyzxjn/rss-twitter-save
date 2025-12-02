@@ -2,7 +2,7 @@
   "name": "rss-twitter-save",
   "description": "Save media from Twitter RSS",
   "author": "amatsuka <amatsukamao@qq.com>",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
